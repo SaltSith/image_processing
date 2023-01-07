@@ -1,10 +1,9 @@
 #include "image_io.h"
+#include "image_formats/image_formats.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-#define BUFF_SIZE 2048
 
 int
 image_io_read(image_type_t *image)
@@ -68,20 +67,13 @@ image_io_read(image_type_t *image)
 		strncpy(image->name, buff, (strlen(buff) + 1) * sizeof(char));
 	}
 
-	switch (image->magic_number) {
-	case P1:
-		break;
-
-	case P2:
-		break;
-
-	default:
-		break;
-	}
+	int result = image_format_read_image(image, input_file, buff);
 
 	fclose(input_file);
 
-    return 0;
+	image_print_info(image);
+
+    return result;
 }
 
 int image_io_write(image_type_t *image, const char *file_name)
