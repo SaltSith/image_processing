@@ -39,7 +39,6 @@ image_io_read(image_type_t *image)
 
 	memcpy(image->magic_number_str, buff, 2 * sizeof(char));
 
-	int cntr = 0;
 	memset(buff, '\0', sizeof(buff));
 	char *im_name = buff;
 	char ch;
@@ -49,13 +48,10 @@ image_io_read(image_type_t *image)
 		if (ch == '#') {
 			while (ch != '\n') {
 				ch = fgetc(input_file);
-				if (ch == ' ') {
-					cntr++;
+				if (ch == '\n') {
 					continue;
 				}
-				if (cntr < 2) {
-					*im_name++ = ch;
-				}
+				*im_name++ = ch;
 			}
 		} else {
 			ungetc(ch, input_file);
