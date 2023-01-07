@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+#define BUFF_SIZE 2048
+
 typedef enum {
 	P1 = 0,
 	P2,
@@ -19,4 +21,4 @@ typedef struct {
     char *name;
 } image_type_t;
 
-void image_dummy(void);
+void image_print_info(const image_type_t *image);
