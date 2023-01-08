@@ -4,7 +4,7 @@
 
 
 int
-image_pbm_load(image_type_t *image, FILE *input_file, char *buff)
+image_pbm_load(image_type_t *image, FILE *input_file)
 {
     if (fscanf(input_file, "%d %d", &image->x, &image->y) != 2) {
         return -7;

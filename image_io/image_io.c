@@ -67,7 +67,7 @@ image_io_read(image_type_t *image)
 		strncpy(image->name, buff, (strlen(buff) + 1) * sizeof(char));
 	}
 
-	int result = image_format_read_image(image, input_file, buff);
+	int result = image_format_read_image(image, input_file);
 
 	fclose(input_file);
 
