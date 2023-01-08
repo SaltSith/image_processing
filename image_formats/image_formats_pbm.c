@@ -1,7 +1,7 @@
 #include "image_formats_pbm.h"
 
 #include <stdlib.h>
-
+#include <string.h>
 
 int
 image_pbm_load(image_type_t *image, FILE *input_file)
@@ -41,7 +41,17 @@ image_pbm_save(image_type_t *image, const char *new_file_name)
         return -2;
     }
 
-    FILE *output_file_handler = fopen(new_file_name, "w");
+    char *fn = malloc(strlen(new_file_name) + strlen(".pbm") + 1);
+    if (fn == NULL) {
+        return -3;
+    }
+
+    memset(fn, '\0', strlen(new_file_name) + strlen(".pbm") + 1);
+    strncpy(fn, new_file_name, strlen(new_file_name));
+    strcat(fn, ".pbm");
+
+    FILE *output_file_handler = fopen(fn, "w");
+    free(fn);
     if (output_file_handler == NULL) {
         return -3;
     }

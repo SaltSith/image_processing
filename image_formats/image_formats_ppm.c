@@ -1,6 +1,7 @@
 #include "image_formats_ppm.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 int image_ppm_load(image_type_t *image, FILE *input_file)
 {
@@ -39,7 +40,17 @@ image_ppm_save(image_type_t *image, const char *new_file_name)
         return -1;
     }
 
-    FILE *output_file_handler = fopen(new_file_name, "w");
+    char *fn = malloc(strlen(new_file_name) + strlen(".ppm") + 1);
+    if (fn == NULL) {
+        return -3;
+    }
+
+    memset(fn, '\0', strlen(new_file_name) + strlen(".ppm") + 1);
+    strncpy(fn, new_file_name, strlen(new_file_name));
+    strcat(fn, ".ppm");
+
+    FILE *output_file_handler = fopen(fn, "w");
+    free(fn);
     if (output_file_handler == NULL) {
         return -3;
     }
@@ -55,7 +66,7 @@ image_ppm_save(image_type_t *image, const char *new_file_name)
             fprintf(output_file_handler, "\n");
         }
     }
-    
+
     fclose(output_file_handler);
 
     return 0;
