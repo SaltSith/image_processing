@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int image_ppm_load(image_type_t *image, FILE *input_file)
+int
+image_ppm_load(image_type_t *image, FILE *input_file)
 {
     if (fscanf(input_file, "%d %d", &image->x, &image->y) != 2) {
         return -7;

@@ -78,7 +78,8 @@ image_io_read(image_type_t *image)
     return result;
 }
 
-int image_io_write(image_type_t *image, const char *file_name)
+int
+image_io_write(image_type_t *image, const char *file_name)
 {
     if (image == NULL) {
         return -1;
