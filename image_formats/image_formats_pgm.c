@@ -23,7 +23,7 @@ int image_pgm_load(image_type_t *image, FILE *input_file)
         return -8;
     }
 
-    for (int i = 0; i < (image->x * image->y); i++) {
+    for (uint32_t i = 0; i < (image->x * image->y); i++) {
         if (fscanf(input_file, "%hhu", &image->pixels[i]) != 1) {
             return -9;
         }
@@ -33,25 +33,10 @@ int image_pgm_load(image_type_t *image, FILE *input_file)
     return 0;
 }
 
-int image_pgm_save(image_type_t *image, const char *new_file_name)
+int image_pgm_save(image_type_t *image, FILE *output_file_handler)
 {
-    if ((image == NULL) || (new_file_name == NULL)) {
+    if ((image == NULL) || (output_file_handler == NULL)) {
         return -1;
-    }
-
-    char *fn = malloc(strlen(new_file_name) + strlen(".pgm") + 1);
-    if (fn == NULL) {
-        return -3;
-    }
-
-    memset(fn, '\0', strlen(new_file_name) + strlen(".pgm") + 1);
-    strncpy(fn, new_file_name, strlen(new_file_name));
-    strcat(fn, ".pgm");
-
-    FILE *output_file_handler = fopen(fn, "w");
-    free(fn);
-    if (output_file_handler == NULL) {
-        return -3;
     }
 
     fprintf(output_file_handler, "%s\n", image->magic_number_str);
@@ -66,8 +51,6 @@ int image_pgm_save(image_type_t *image, const char *new_file_name)
             fprintf(output_file_handler, "\n");
         }
     }
-
-    fclose(output_file_handler);
 
     return 0;
 }
