@@ -1,6 +1,8 @@
 #include "image_formats.h"
+
 #include "image_formats_pbm.h"
 #include "image_formats_pgm.h"
+#include "image_formats_ppm.h"
 
 
 int
@@ -16,6 +18,9 @@ image_format_read_image(image_type_t *image, FILE *input_file)
 
 	case P2:
         return image_pgm_load(image, input_file);
+
+    case P3:
+        return image_ppm_load(image, input_file);
 
 	default:
 		break;
@@ -36,7 +41,10 @@ image_format_save_image(image_type_t *image, const char *new_file_name)
         return image_pbm_save(image, new_file_name);
 
 	case P2:
-		break;
+        return image_pgm_save(image, new_file_name);
+
+    case P3:
+        return image_ppm_save(image, new_file_name);
 
 	default:
 		break;

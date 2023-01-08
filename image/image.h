@@ -7,7 +7,7 @@
 typedef enum {
 	P1 = 0,
 	P2,
-    P5,
+    P3,
 } magic_number_t;
 
 typedef struct {

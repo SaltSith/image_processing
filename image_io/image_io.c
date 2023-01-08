@@ -31,6 +31,8 @@ image_io_read(image_type_t *image)
     	image->magic_number = P1;
     } else if (buff[0] == 'P' && buff[1] == '2') {
     	image->magic_number = P2;
+	} else if (buff[0] == 'P' && buff[1] == '3') {
+    	image->magic_number = P3;
     } else {
     	fclose(input_file);
     	return -5;
