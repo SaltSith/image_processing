@@ -50,7 +50,7 @@ image_pbm_save(image_type_t *image, const char *new_file_name)
     fprintf(output_file_handler, "#%s\n", image->name);
     fprintf(output_file_handler, "%d %d\n", image->x, image->y);
 
-    for (int i = 0; i < (image->x * image->y); i++) {
+    for (uint32_t i = 0; i < (image->x * image->y); i++) {
         fprintf(output_file_handler, "%d ", image->pixels[i]);
         if ((i + 1) % image->x == 0) {
             fputs("\n", output_file_handler);
