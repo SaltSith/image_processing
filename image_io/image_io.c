@@ -1,10 +1,9 @@
 #include "image_io.h"
+#include "image_formats/image_formats.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-#define BUFF_SIZE 2048
 
 int
 image_io_read(image_type_t *image)
@@ -32,6 +31,8 @@ image_io_read(image_type_t *image)
     	image->magic_number = P1;
     } else if (buff[0] == 'P' && buff[1] == '2') {
     	image->magic_number = P2;
+	} else if (buff[0] == 'P' && buff[1] == '3') {
+    	image->magic_number = P3;
     } else {
     	fclose(input_file);
     	return -5;
@@ -39,7 +40,6 @@ image_io_read(image_type_t *image)
 
 	memcpy(image->magic_number_str, buff, 2 * sizeof(char));
 
-	int cntr = 0;
 	memset(buff, '\0', sizeof(buff));
 	char *im_name = buff;
 	char ch;
@@ -49,13 +49,10 @@ image_io_read(image_type_t *image)
 		if (ch == '#') {
 			while (ch != '\n') {
 				ch = fgetc(input_file);
-				if (ch == ' ') {
-					cntr++;
+				if (ch == '\n') {
 					continue;
 				}
-				if (cntr < 2) {
-					*im_name++ = ch;
-				}
+				*im_name++ = ch;
 			}
 		} else {
 			ungetc(ch, input_file);
@@ -72,23 +69,17 @@ image_io_read(image_type_t *image)
 		strncpy(image->name, buff, (strlen(buff) + 1) * sizeof(char));
 	}
 
-	switch (image->magic_number) {
-	case P1:
-		break;
-
-	case P2:
-		break;
-
-	default:
-		break;
-	}
+	int result = image_format_read_image(image, input_file);
 
 	fclose(input_file);
 
-    return 0;
+	image_print_info(image);
+
+    return result;
 }
 
-int image_io_write(image_type_t *image, const char *file_name)
+int
+image_io_write(image_type_t *image, const char *file_name)
 {
     if (image == NULL) {
         return -1;
