@@ -16,6 +16,9 @@ target_link_libraries(${CMAKE_PROJECT_NAME} image_io)
 add_subdirectory(image_formats)
 target_link_libraries(${CMAKE_PROJECT_NAME} image_formats)
 
+add_subdirectory(compression)
+target_link_libraries(${CMAKE_PROJECT_NAME} compression)
+
 # testing 
 enable_testing()
 
