@@ -89,5 +89,5 @@ image_io_write(image_type_t *image, const char *file_name)
         return -2;
     }
 
-    return 0;
+    return image_format_save_image(image, file_name);
 }
